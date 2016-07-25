@@ -4,7 +4,7 @@ July 17, 2016
 
 
 # Introduction
-### We have been asked with assessing the economic data for the country of Chulwalar and providing a forecast for the main exports of Chulwalar: Red Etel, Blue Etel, Wuge, and Efak.  We will first focus on picking an export to forecast and will be able to apply the same methodology later to forecast the remaining exports.
+##### We have been asked with assessing the economic data for the country of Chulwalar and providing a forecast for the main exports of Chulwalar: Red Etel, Blue Etel, Wuge, and Efak.  We will first focus on picking an export to forecast and will be able to apply the same methodology later to forecast the remaining exports.
 
 # Data cleaning and Preparation
 ##### **Overview**: We were given 3 semicolon delimited files for this study to complete our work.  The files contained actual (as-is) data, planned data, and economic indicators for Chulwalar.  The code that is sourced below can be found in the "analysis " folder of this project.  The file uses the packages reshape, reshape2, tidyr, and gdata to reformat the data that we were given into nice clean datasets that the user can use for analysis.  We also sorted the data and added in a month number column for reference.
@@ -29,7 +29,7 @@ source("analysis/data_cleaning_time_series.R")
 ```
 
 
-# Exploratory Data Analysis  ( EDA)
+# Exploratory Data Analysis  (EDA)
 
 ##### **Overview** : For this section, we will show some of the code, because it does help in the understanding of what steps were used in the create the analysis.  
 
@@ -61,7 +61,7 @@ source("analysis/data_cleaning_time_series.R")
 
 ##### Due to the Economy's high reliance on red etel I have decided to forecast this export. I will now focus on the relationship of red_etel with other variables
 
-The next steps in the EDA focus on decomposing the time series using 2 methods and comparing the red etel to the plan data.
+#####The next steps in the EDA focus on decomposing the time series using 2 methods and comparing the red etel to the plan data.
 
 ### EDA: Decomposition using both classical and STL methods
 
@@ -83,7 +83,7 @@ cl_fit_red_etel_as_is <- decompose(red_etel_as_is)
 
 ![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
-##### We can definitely see some of the seasonality taken out and that the random component is strong in the trend
+##### We can definitely see that the seasonality is taken out and that the random component is strong in the trend
 
 
 #### STL decomposition
@@ -102,7 +102,7 @@ cl_fit_red_etel_as_is <- decompose(red_etel_as_is)
 ##### The monthplot shows us 12 unique lines that highlight the average seasonality for all years by month in the datasets
 ##### This particular plot shows us that September is overall the seasonal high for red etel with a decent amount of dispersion over time.  We also see that many months show a declining seasonal trend over time.  In particular, the Spring and Summer months show declines while the winter months seem to be increasing or staying the same.
 
-##### Overall, we can see that the Red etel has an upward trend trajectory and a strong seasonal component.  This information lends us to believe that a Holt Winters seasonal model will be best for this forecast.
+##### Overall, we can see that the Red etel has an upward trend trajectory and a strong seasonal component.  This information leads us to believe that a Holt Winters seasonal model will be best for this forecast.
 
 
 ### EDA: Plan versus As is data
@@ -111,7 +111,7 @@ cl_fit_red_etel_as_is <- decompose(red_etel_as_is)
 
 #### Correlation between As Is and Plan Data
 
-Test the correlation between As Is and Plan data in order to test how exact the planning is. Correlation is a measure of the strength of linear relationship between two variables. It can be viewed as a measure of how well 2 variables move together.
+We will test the correlation between As Is and Plan data in order to test how well plan tracks to actual . Correlation is a measure of the strength of linear relationship between two variables. It can be viewed as a measure of how well 2 variables move together.
 
 ```r
 cor(red_etel_as_is , red_etel_plan)
@@ -241,7 +241,7 @@ cor(red_etel_as_is , births)
 ## [1] -0.1217222
 ```
 
-##### The relationship with births is negative but not strong (r = 0.12)
+##### The relationship with births is negative but not strong (r = -0.12)
 
 ##### **Satisfaction Index- External**
 
@@ -300,7 +300,7 @@ cor(red_etel_as_is_ANNUAL , globalisation_part_members_ANNUAL)
 ```
 
 ##### Notice that we has to annualize the data here (done in the time series creation code).  Otherwise, we would get a stairstepped graph that could hide the trends.
-##### We see a high correlation between the variables here (R = 0.89).   However, the data being annual could positively impact these results and skew the data.  It is interesting though.  Perhaps as exports increase (red etel being the greatest) the globalisation party members increase.Could one be a leading indicator?
+##### We see a high correlation between the variables here (R = 0.89).   However, the data being annual could positively impact these results and skew the data.  It is interesting though.  Perhaps as exports increase (red etel being the largest) the globalisation party members increase.Could one be a leading indicator?
 
 ##### **Monthly Average Export Price Index**
 
@@ -340,7 +340,7 @@ cor(red_etel_as_is , etel_productions_price_index)
 ```
 ## [1] 0.3391872
 ```
-##### Costs seem to have gotten pretty high over the past couple of years.  I wonder if this has hit blue etel more than red etel since blue has the weaker trend.  We would think that rising costs might be impacting the amount of etel being produced as those costs would be passed on  to the consumer.  That being said, demand can outstrip cost easily if the product sees a shift in demand due to something such as changes in tastes and preferences.
+##### Costs seem to have gotten pretty high over the past couple of years.  I wonder if this has hit blue etel more than red etel since blue has the weaker trend.  We would think that rising costs might be impacting the amount of etel being produced as those costs would be passed on  to the consumer thus decreasing demand.  That being said, demand can outstrip cost easily if the product sees a shift in demand due to something such as changes in tastes and preferences.
 
 ##### Etel doesnt seem to be correlated very highly (blue or red) (r = 0.34) with the ETEL production price index.
 
@@ -362,7 +362,7 @@ cor(red_etel_as_is , chulwalar_index)
 ## [1] 0.2242922
 ```
 
-##### We do not have alot of metadata about this variabe, but it has a similar trend to the independent sentiment survey.
+##### We do not have alot of metadata about this variable, but it has a similar trend to the independent sentiment survey.
 ##### No strong relationship here (R = 0.22).
 
 ##### **Inflation**
@@ -383,7 +383,7 @@ cor(red_etel_as_is , inflation)
 ```
 
 ##### Inflation was relatively high in 2008 for the period plotted but dropped about the time that we saw a drop in sentiment in the previous data.  It is looking like we may have something like a recession here.  I am apprehensive about saying this was a recession.  We do not know if this is a small part of a larger trend.  However, negative inflation is not something that we see in a robust economy.
-##### Amazingly, there is very little impact to red etel exports as inflation has increased.
+##### Amazingly, there is virtually no impact to red etel exports as inflation has increased.  Inflation and Red Etel exports do not appear to be correlated (R = -0.09) 
 
 ##### **Spending for Chulwalar Days**
 
@@ -423,7 +423,7 @@ lines(chul_days, col = "red")
 
 
 
-### To summarize the economic indicator EDA, we found that the only variables that had strong relationships with red etel were annual figures.  There is some fear in drawing any major conclusions from this information, because there is not a lot of data supporting this relationship.  Additionally, we do not see a strong relationship on any monthly data.  Therefore, we might be hard pressed to believe that any relationship exists otherwise.
+##### To summarize the economic indicator EDA, we found that the only variables that had strong relationships with red etel were annual figures.  There is some fear in drawing any major conclusions from this information, because there is not a lot of data supporting this relationship.  Additionally, we do not see a strong relationship on any monthly data.  Therefore, we might be hard pressed to believe that any relationship exists otherwise.
 
 
 # Forecasting
@@ -479,17 +479,23 @@ red_etel_ses_4<- ses(red_etel_as_is, he = 12) # default
 
 #####Holt added to the model in order to forecast using trends as well. For this it is necessary to add a beta, which determines the trend. If neither alpha nor beta is stated, both parameters will be optimised using ets(). The trend is exponential if the intercepts(level) and the gradient (slope) are multiplied with eachother. The values are worse. As the Beta was very low in the optimisation, the forecast is very similar to the ses() model. 
 
-#####We will also make 2 models
+##### We will also make 2 models( r code shown for refrence)
 
 * 1: additive
 
 * 2: multiplicative
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+```r
+red_etel_holt_linear_1 <- holt(red_etel_as_is,h=12)
+red_etel_holt_linear_2 <- holt(red_etel_as_is, exponential=TRUE,h=12)
+```
+
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ##### This one still shows the slight offset in the graph.  However, the data look very close.  While the additive seems to be more peaked and match the period-1 very well, the offset might make this model look worse from an accuracy perspective.  So our bet is that the multiplicative actually looks better in the accuracy data.
 
-##### We notice that the forecasts go in completely different directions.  This does not make much sense from a practical perspective; however, the output speaks to the the structure of the different models.  
+##### We notice that the forecasts move in completely different directions.  This does not make much sense from a practical perspective; however, the output speaks to the the structure of the different models.  
 
 
 ##### Check the accuracy of the holt's linear models
@@ -526,14 +532,25 @@ red_etel_ses_4<- ses(red_etel_as_is, he = 12) # default
 
 ### Forecasting: Holt's linear trend- Damped
 
-##### Next, we wanted to look at the impact that damping might have on our forecast.
+##### Next, we wanted to look at the impact that damping might have on our forecast. We will just add the samping effect to the previous 2 models (R code shown for reference)
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+* 3: additive
+
+* 4: multiplicative
+
+
+```r
+red_etel_holt_linear_3 <- holt(red_etel_as_is, damped=TRUE,h=12)
+
+red_etel_holt_linear_4 <- holt(red_etel_as_is, exponential=TRUE, damped=TRUE,h=12)
+```
+
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ##### Visually, the damped makes the forecast look more subdued, which is what we would expect.  The fit looks the same, because we have only damped the forecast; therefore, our accuracy measures based on past values should remain the same between model set 1,2 and model set 3, 4
 ##### Let's plot all models on the same graph
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 
 ##### This graph really shows the difference that the damped makes in the forecasts.  The dampening method really subdues the linear forecast.
@@ -543,17 +560,26 @@ red_etel_ses_4<- ses(red_etel_as_is, he = 12) # default
 
 ##### Holt and Winters have expanded Holt's model further to include the seasonality aspect. The parameter gamma, which is for smoothing the seasonality, was added to achieve this. The values are better than the models without seasonality. This is logical, since the data is strongly influenced by seasonality.  In the following model, none of the parameters are given so that they will be optimised automatically. There are two models: one using an additive error model method and one using a multiplicative error model. The additive model gives slightly better results than the multiplicative model.
 
-##### Based on our review of the data in the EDA section, we know that our dataset is highly seasonal.  We were able to decompose the series to show the seasonal component.  We know that holt winters models seasonality quite well.  We will now apply that model
+##### Based on our review of the data in the EDA section, we know that our dataset is highly seasonal.  We were able to decompose the series to show the seasonal component.  We know that Holt Winters models seasonality quite well.  We will now apply that model in 2 forms: additive and multiplicative (R code shown for reference)
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+* 1: additive
+
+* 2: multiplicative
+
+
+```r
+red_etel_holt_winters_1<- hw(red_etel_as_is, seasonal = "additive")
+red_etel_holt_winters_2 <- hw(red_etel_as_is, seasonal = "multiplicative")
+```
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ##### This forecast looks to be the best that we have seen so far in our study.  The multiplicative seems to provide the better, more-peaked forecast.  However, the additive may have a slightly less volatile forecast in the non-peaked periods.
 
 ##### Let's look at the states of the model
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
-##### This looks very similar to the decompositions we have already viewed.  However, we can compare the additive (left) to the multiplicative (right).  We do notice a difference in the slope section of hte models.  In the 2012-2014 time periods, the models show very different slopes.  We will need to check the forecast accuracy of these models to decide which is best.
+##### This looks very similar to the decompositions we have already viewed.  However, we can compare the additive (left) to the multiplicative (right).  We do notice a difference in the slope section of the models.  In the 2012-2014 time periods, the models show very different slopes.  We will need to check the forecast accuracy of these models to decide which is best.
 
 
 ```
@@ -582,38 +608,36 @@ red_etel_ses_4<- ses(red_etel_as_is, he = 12) # default
 ## 1                    2107.262                    2094.438
 ```
 
-##### We also show the multiplicative (red_etel_holt_winters_2_AIC) to be slightly better from an AIC and BIC perspective.  We would pick the multiplicative model even though it is only slightly better.
+##### We also show the multiplicative (red_etel_holt_winters_2) to be slightly better from an AIC and BIC perspective.  We would pick the multiplicative model even though it is only slightly better.
 
 
 ### Forecasting: Holt Winters Seasonal Model comparison to plan
 
 
-![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](Chulwalar_case_study_and_economic_forecast_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 ```
 ##                ME     RMSE      MAE      MPE     MAPE      ACF1 Theil's U
 ## Test set 24725.09 152213.3 100165.7 2.169685 8.322181 0.2422082 0.4296274
 ```
 
-##### In the graph, we can see that the multiplicative model matches the forecast quite well.  We do in some situations tend to overforecast the peaks (which is due to the nature of the multiplicative).  However, it does look like we forcast the lows pertty well.  
+##### In the graph, we can see that the multiplicative model matches the forecast quite well.  We do in some situations tend to overforecast the peaks (which is due to the nature of the multiplicative).  However, it does look like we forcast the lows well.  
 
-##### Our Mean percentage error shows this to be evident with a value of 2.17%.  Also, our MAPE is only 8.3%.  However, we do have to keep in mind that our plan was off a good bit from actual in the EDA.  
+##### Our mean percentage error shows a low error of with a value of 2.17%, meaning that on average, we tend to over-forecast by about 2%.  Also, our MAPE is only 8.3%, meaning that on an abolute basis, on average, we are about 8% off of plan.  However, we do have to keep in mind that our plan was off a good bit from actual in the EDA.  Therefore, we might be cautious in making claims regarding the plan versus new forecast data.
 
 
 
 # Summary
 
 ##### In this analysis, we walked through an EDA where we determined that the exports for Chulwalar had large seasonal influences
-##### Based on our observation that Red Etel was a very large export, we picked that export to forecast
-##### In the EDA of Red Etel, we determined that there was very little to no correlation with economic indicators except on an annual basis.  We decided not to weigh the annual correlations too heavily due to the somewhat summarized nature of the data.
+##### Based on our observation that Red Etel was the largest and potentially most important export, we picked that export to forecast.
+##### In the EDA of Red Etel, we determined that there was very little to no correlation with economic indicators except on an annual basis.  We decided not to weigh the annual correlations too heavily due to the somewhat nature of the data.
 ##### We also looked at the actual amount of red etel exported versus the amount planned.  While the variables are highly correlated, the plan versus actual actually had a MAPE of 13.6% and a mean percentage error of -5.6%.  This means that our absolute error on average was 13.6% and we tended to under forecast on the whole by about 5.6%.
 ##### Next, we ran several models.  Based on our previous observations, the Holt Winters approach made the most sense for our analysis.  Therefore, we evalutated the additive and multiplicative Holt Winters models.  The multiplicative proved to be only slightly better from an overall accuracy perspective.  Therefore, we would select the multiplicative model to build our forecast.
-##### Our final forecast model 
+##### Our final forecast model had a MAPE of 8.3% versus plan and an MPE of -2.17%.  While our model is not perfect, it does an overall sound job of capturing the movement of the variables. Our next steps include looking into the planning process to determine whether our forecast should influence the plan in the future.  
 
 
 
 
 
-
-#####
 
